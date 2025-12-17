@@ -1,5 +1,6 @@
 // components/ui/EmptyState.tsx
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -21,25 +22,35 @@ export function EmptyState({
   onAction,
 }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      {Icon && <Icon className="h-16 w-16 text-gray-600 mb-4" />}
-      <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
-      {description && <p className="text-gray-400 mb-6 max-w-md">{description}</p>}
-      {(actionLabel && (actionLink || onAction)) && (
-        <>
-          {actionLink ? (
-            <Link to={actionLink}>
-              <Button className="bg-[#256af4] hover:bg-[#1e5dd9]">
+    <div className="flex flex-col items-center justify-center py-20">
+      <Alert className="max-w-2xl bg-[#242424] border-gray-800 text-center">
+        {Icon && (
+          <div className="flex justify-center mb-3">
+            <Icon className="h-12 w-12 text-gray-600" />
+          </div>
+        )}
+        <AlertTitle className="text-lg mb-2 col-span-2">{title}</AlertTitle>
+        {description && (
+          <AlertDescription className="mb-4 col-span-2">
+            {description}
+          </AlertDescription>
+        )}
+        {(actionLabel && (actionLink || onAction)) && (
+          <div className="flex justify-center mt-4 col-span-2">
+            {actionLink ? (
+              <Link to={actionLink}>
+                <Button className="bg-[#256af4] hover:bg-[#1e5dd9]">
+                  {actionLabel}
+                </Button>
+              </Link>
+            ) : (
+              <Button onClick={onAction} className="bg-[#256af4] hover:bg-[#1e5dd9]">
                 {actionLabel}
               </Button>
-            </Link>
-          ) : (
-            <Button onClick={onAction} className="bg-[#256af4] hover:bg-[#1e5dd9]">
-              {actionLabel}
-            </Button>
-          )}
-        </>
-      )}
+            )}
+          </div>
+        )}
+      </Alert>
     </div>
   );
 }

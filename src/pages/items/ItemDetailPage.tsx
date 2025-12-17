@@ -1,4 +1,5 @@
 // pages/items/ItemDetailPage.tsx
+import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,7 +9,7 @@ import { useLockItem } from '@/hooks/useItems';
 import { PriceDisplay } from '@/components/ui/PriceDisplay';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { CountdownTimer } from '@/components/ui/CountdownTimer';
-import { LoadingPage, LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { ItemDetailSkeleton, LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { ErrorPage } from '@/components/ui/ErrorState';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,6 +17,16 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { ArrowLeft, Lock, User, Calendar, Gavel, DollarSign } from 'lucide-react';
 import { placeBidSchema } from '@/schemas/bid.schemas';
 import type { PlaceBidForm } from '@/types/bid';
@@ -31,6 +42,7 @@ export function ItemDetailPage() {
   const { data: item, isLoading, error } = useItem(id!);
   const { mutate: placeBid, isPending: isPlacingBid } = usePlaceBid();
   const { mutate: lockItem, isPending: isLocking } = useLockItem();
+  const [showLockDialog, setShowLockDialog] = useState(false);
 
   const {
     register,
@@ -66,7 +78,7 @@ export function ItemDetailPage() {
   };
 
   if (isLoading) {
-    return <LoadingPage />;
+    return <ItemDetailSkeleton />;
   }
 
   if (error || !item) {
@@ -179,7 +191,7 @@ export function ItemDetailPage() {
                     <div className="pt-4">
                       <Button
                         variant="destructive"
-                        onClick={handleLockItem}
+                        onClick={() => setShowLockDialog(true)}
                         disabled={isLocking}
                       >
                         <Lock className="h-4 w-4 mr-2" />
@@ -276,6 +288,33 @@ export function ItemDetailPage() {
             </Card>
           </div>
         </div>
+
+        {/* Lock Item Confirmation Dialog */}
+        <AlertDialog open={showLockDialog} onOpenChange={setShowLockDialog}>
+          <AlertDialogContent className="bg-[#242424] border-gray-800">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-white">Lock this item?</AlertDialogTitle>
+              <AlertDialogDescription className="text-gray-400">
+                Locking this item will permanently remove it from the marketplace. This action cannot be undone.
+                You can only lock items with no bids.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="bg-[#2a2a2a] border-gray-700 text-white hover:bg-[#333333]">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  handleLockItem();
+                  setShowLockDialog(false);
+                }}
+                className="bg-red-500 hover:bg-red-600 text-white"
+              >
+                Lock Item
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   );

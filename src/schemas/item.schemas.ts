@@ -21,7 +21,3 @@ export const itemFiltersSchema = z.object({
     startingPriceFrom: z.number().positive().optional(),
     startingPriceTo: z.number().positive().optional(),
 });
-
-export type CreateItemFormValues = z.infer<typeof createItemSchema>;
-export type UpdateItemFormValues = z.infer<typeof updateItemSchema>;
-export type ItemFiltersValues = z.infer<typeof itemFiltersSchema>;

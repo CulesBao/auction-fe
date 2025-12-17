@@ -1,5 +1,5 @@
 // utils/formatters.ts
-import { format, formatDistanceToNow, differenceInSeconds, differenceInMinutes, differenceInHours, differenceInDays } from 'date-fns';
+import { format, differenceInSeconds } from 'date-fns';
 
 export function formatCurrency(amount: number, currency: string = 'USD', showCurrency: boolean = true): string {
     const formatter = new Intl.NumberFormat('en-US', {
@@ -22,10 +22,6 @@ export function formatDate(date: string | Date): string {
 
 export function formatDateTime(date: string | Date): string {
     return format(new Date(date), 'MMM dd, yyyy at h:mm a');
-}
-
-export function formatRelativeTime(date: string | Date): string {
-    return formatDistanceToNow(new Date(date), { addSuffix: true });
 }
 
 export function formatCountdown(endTime: string | Date): string {

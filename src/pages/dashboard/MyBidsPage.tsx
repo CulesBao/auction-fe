@@ -5,11 +5,12 @@ import { useItems } from '@/hooks/useItems';
 import { PriceDisplay } from '@/components/ui/PriceDisplay';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { CountdownTimer } from '@/components/ui/CountdownTimer';
-import { LoadingCard } from '@/components/ui/LoadingSpinner';
+import { TableSkeleton } from '@/components/ui/LoadingSpinner';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -26,7 +27,25 @@ export function MyBidsPage() {
   // Get all items where user is the highest bidder
   const { data, isLoading, error, refetch } = useItems({});
 
-  if (isLoading) return <LoadingCard />;
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">My Bids</h1>
+          <p className="text-gray-400">Track your active bids and see which auctions you're winning</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-[#242424] p-6 rounded-lg border border-gray-800 space-y-3">
+              <Skeleton className="h-5 w-32 bg-gray-700" />
+              <Skeleton className="h-10 w-20 bg-gray-700" />
+            </div>
+          ))}
+        </div>
+        <TableSkeleton rows={5} />
+      </div>
+    );
+  }
 
   if (error) {
     return (

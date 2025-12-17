@@ -2,8 +2,8 @@
 import { Outlet } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/auth.store';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
+import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/layout/AppSidebar';
 
 export function RootLayout() {
   const checkAuth = useAuthStore((state) => state.checkAuth);
@@ -17,12 +17,17 @@ export function RootLayout() {
   }, [checkAuth, initialize]);
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white flex flex-col">
-      <Header />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-2 border-b border-gray-800 bg-[#242424] px-4">
+          <SidebarTrigger />
+          <div className="flex-1" />
+        </header>
+        <main className="flex-1 p-4 md:p-6">
+          <Outlet />
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

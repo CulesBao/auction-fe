@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useItems } from '@/hooks/useItems';
 import { ItemCard } from '@/components/items/ItemCard';
-import { LoadingCard } from '@/components/ui/LoadingSpinner';
+import { ItemGridSkeleton } from '@/components/ui/LoadingSpinner';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Input } from '@/components/ui/input';
@@ -117,7 +117,7 @@ export function MarketplacePage() {
         </div>
 
         {/* Results */}
-        {isLoading && <LoadingCard />}
+        {isLoading && <ItemGridSkeleton count={8} />}
 
         {error && (
           <ErrorState

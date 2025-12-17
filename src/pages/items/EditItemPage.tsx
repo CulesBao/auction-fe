@@ -6,8 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useItem, useUpdateItem } from '@/hooks/useItems';
 import { createItemSchema } from '@/schemas/item.schemas';
 import type { CreateItemForm } from '@/types/item';
-import { LoadingPage, LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { ErrorPage } from '@/components/ui/ErrorState';
+import { ItemDetailSkeleton, LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { ErrorState } from '@/components/ui/ErrorState';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -75,20 +76,24 @@ export function EditItemPage() {
     );
   };
 
-  if (isLoading) return <LoadingPage />;
+  if (isLoading) return <ItemDetailSkeleton />;
 
-  if (error || !item) return <ErrorPage />;
+  if (error || !item) return <ErrorState message="Failed to load item" />;
 
   // Check if item has bids (cannot edit if has bids)
   if ((item.totalBids ?? 0) > 0) {
     return (
-      <div className="min-h-screen bg-[#1a1a1a] text-white flex items-center justify-center">
-        <div className="text-center max-w-md">
-          <p className="text-yellow-500 text-xl mb-2">Cannot Edit Item</p>
-          <p className="text-gray-400 mb-4">
-            This item already has {item.totalBids} bid(s) and cannot be edited.
-          </p>
-          <Button onClick={() => navigate('/dashboard/my-items')}>Back to My Items</Button>
+      <div className="min-h-screen bg-[#1a1a1a] text-white">
+        <div className="container mx-auto py-8 px-4 max-w-2xl">
+          <Alert className="border-yellow-600 bg-yellow-950/20">
+            <AlertTitle className="text-yellow-500 text-xl mb-2">Cannot Edit Item</AlertTitle>
+            <AlertDescription className="text-gray-300 mb-4">
+              This item already has {item.totalBids} bid(s) and cannot be edited.
+            </AlertDescription>
+            <Button onClick={() => navigate('/dashboard/my-items')} variant="outline" className="mt-2">
+              Back to My Items
+            </Button>
+          </Alert>
         </div>
       </div>
     );

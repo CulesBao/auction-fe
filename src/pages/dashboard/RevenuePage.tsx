@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useAuthStore } from '@/store/auth.store';
 import { useRevenue } from '@/hooks/useItems';
 import { PriceDisplay } from '@/components/ui/PriceDisplay';
-import { LoadingCard } from '@/components/ui/LoadingSpinner';
+import { TableSkeleton } from '@/components/ui/LoadingSpinner';
+import { Skeleton } from '@/components/ui/skeleton';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Button } from '@/components/ui/button';
@@ -32,7 +33,39 @@ export function RevenuePage() {
     setEndDate('');
   };
 
-  if (isLoading) return <LoadingCard />;
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold">Revenue Dashboard</h1>
+          <p className="text-gray-400 mt-1">Track your earnings from sold items</p>
+        </div>
+        <Card className="bg-[#242424] border-gray-800">
+          <CardHeader>
+            <CardTitle className="text-lg">Filter by Date Range</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Skeleton className="h-10 w-full bg-gray-700" />
+              <Skeleton className="h-10 w-full bg-gray-700" />
+              <Skeleton className="h-10 w-full bg-gray-700" />
+            </div>
+          </CardContent>
+        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
+            <Card key={i} className="bg-[#242424] border-gray-800">
+              <CardContent className="pt-6 space-y-2">
+                <Skeleton className="h-5 w-24 bg-gray-700" />
+                <Skeleton className="h-8 w-32 bg-gray-700" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <TableSkeleton rows={5} />
+      </div>
+    );
+  }
 
   if (error) {
     return (

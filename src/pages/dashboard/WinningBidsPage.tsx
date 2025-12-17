@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/store/auth.store';
 import { useWinningBids } from '@/hooks/useItems';
 import { PriceDisplay } from '@/components/ui/PriceDisplay';
-import { LoadingCard } from '@/components/ui/LoadingSpinner';
+import { TableSkeleton } from '@/components/ui/LoadingSpinner';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Button } from '@/components/ui/button';
@@ -42,7 +42,22 @@ export function WinningBidsPage() {
     }
   };
 
-  if (isLoading) return <LoadingCard />;
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold flex items-center gap-2">
+              <Trophy className="h-8 w-8 text-yellow-500" />
+              Winning Bids
+            </h1>
+            <p className="text-gray-400 mt-1">Items you've won in auctions</p>
+          </div>
+        </div>
+        <TableSkeleton rows={5} />
+      </div>
+    );
+  }
 
   if (error) {
     return (

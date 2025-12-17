@@ -7,5 +7,3 @@ export const placeBidSchema = z.object({
         .number({ required_error: 'Bid amount is required' })
         .positive('Bid amount must be positive'),
 });
-
-export type PlaceBidFormValues = z.infer<typeof placeBidSchema>;

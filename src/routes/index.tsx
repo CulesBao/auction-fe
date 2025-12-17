@@ -1,7 +1,6 @@
 // routes/index.tsx
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { RootLayout } from '@/layouts/RootLayout';
-import { DashboardLayout } from '@/layouts/DashboardLayout';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
 // Auth Pages
@@ -70,36 +69,48 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      // Dashboard routes - no separate layout needed
       {
         path: 'dashboard',
         element: (
           <ProtectedRoute>
-            <DashboardLayout />
+            <Navigate to="/dashboard/my-items" replace />
           </ProtectedRoute>
         ),
-        children: [
-          {
-            index: true,
-            element: <Navigate to="/dashboard/my-items" replace />,
-          },
-          {
-            path: 'my-items',
-            element: <MyItemsPage />,
-          },
-          {
-            path: 'my-bids',
-            element: <MyBidsPage />,
-          },
-          {
-            path: 'winning-bids',
-            element: <WinningBidsPage />,
-          },
-          {
-            path: 'revenue',
-            element: <RevenuePage />,
-          },
-        ],
       },
+      {
+        path: 'dashboard/my-items',
+        element: (
+          <ProtectedRoute>
+            <MyItemsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'dashboard/my-bids',
+        element: (
+          <ProtectedRoute>
+            <MyBidsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'dashboard/winning-bids',
+        element: (
+          <ProtectedRoute>
+            <WinningBidsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'dashboard/revenue',
+        element: (
+          <ProtectedRoute>
+            <RevenuePage />
+          </ProtectedRoute>
+        ),
+      },
+      // Profile routes
       {
         path: 'profile',
         element: (
@@ -116,6 +127,7 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      // 404
       {
         path: '*',
         element: <NotFoundPage />,
