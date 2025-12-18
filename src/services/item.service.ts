@@ -9,7 +9,7 @@ import type {
     GetItemsByOwnerIdResponseDto,
     ItemFilters,
 } from '@/types/item';
-import type { GetRevenueByOwnerIdResponseDto, GetWinningBidsByUserIdResponseDto } from '@/types/revenue';
+import type { GetWinningBidsByUserIdResponseDto } from '@/types/revenue';
 
 export const itemService = {
     async createItem(data: CreateItemRequestDto): Promise<ItemResponseDto> {
@@ -44,17 +44,6 @@ export const itemService = {
 
     async getWinningBids(userId: string): Promise<GetWinningBidsByUserIdResponseDto> {
         const response = await apiClient.get(`/items/${userId}/winning-bids`);
-        return response.data;
-    },
-
-    async getRevenue(
-        userId: string,
-        startDate: string,
-        endDate: string
-    ): Promise<GetRevenueByOwnerIdResponseDto> {
-        const response = await apiClient.get(`/items/${userId}/revenue`, {
-            params: { startDate, endDate },
-        });
         return response.data;
     },
 

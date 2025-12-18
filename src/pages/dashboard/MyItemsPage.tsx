@@ -70,7 +70,6 @@ export function MyItemsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <PageHeader
         description="Manage your auction items"
         breadcrumbs={[
@@ -87,7 +86,6 @@ export function MyItemsPage() {
         }
       />
 
-      {/* Stats */}
       {data && data.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
@@ -120,7 +118,6 @@ export function MyItemsPage() {
         </div>
       )}
 
-      {/* Items Table */}
       {data && data.length > 0 ? (
         <div className="bg-[#242424] rounded-lg border border-gray-800">
           <Table>

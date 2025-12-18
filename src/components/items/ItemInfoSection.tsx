@@ -16,7 +16,6 @@ export function ItemInfoSection({ item, currentPrice, minimumBid }: ItemInfoSect
   return (
     <Card className="bg-[#242424] border-gray-800">
       <CardContent className="p-6 space-y-6">
-        {/* Header */}
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <h1 className="text-3xl font-bold mb-2">{item.name}</h1>
@@ -27,13 +26,11 @@ export function ItemInfoSection({ item, currentPrice, minimumBid }: ItemInfoSect
           </div>
         </div>
 
-        {/* Description */}
         <div>
           <h3 className="text-lg font-semibold mb-2">Description</h3>
           <p className="text-gray-300 leading-relaxed">{item.description}</p>
         </div>
 
-        {/* Details Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-700">
           <div className="flex items-center gap-3">
             <User className="h-5 w-5 text-gray-400" />

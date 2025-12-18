@@ -74,7 +74,6 @@ export function SettingsPage() {
   const onSubmitProfile = async (data: ProfileFormData) => {
     setIsSubmittingProfile(true);
     try {
-      console.log('Update profile:', data);
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast.success('Profile updated successfully');
     } catch (error) {
@@ -87,7 +86,6 @@ export function SettingsPage() {
   const onSubmitPassword = async (_data: PasswordFormData) => {
     setIsSubmittingPassword(true);
     try {
-      console.log('Change password');
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast.success('Password changed successfully');
       resetPassword();
@@ -109,16 +107,12 @@ export function SettingsPage() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white">
       <div className="container mx-auto py-8 px-4">
-        {/* Header */}
         <PageHeader
-          title="Settings"
           description="Manage your account settings and preferences"
           breadcrumbs={[
             { label: 'Profile', href: '/profile' },
             { label: 'Settings' },
           ]}
-          icon={Settings}
-          iconColor="text-[#256af4]"
           className="mb-8"
         />
 

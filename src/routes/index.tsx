@@ -19,7 +19,7 @@ import { EditItemPage } from '@/pages/items/EditItemPage';
 import { MyItemsPage } from '@/pages/dashboard/MyItemsPage';
 import { MyBidsPage } from '@/pages/dashboard/MyBidsPage';
 import { WinningBidsPage } from '@/pages/dashboard/WinningBidsPage';
-import { RevenuePage } from '@/pages/dashboard/RevenuePage';
+import { StatisticPage } from '@/pages/dashboard/StatisticPage';
 
 // Profile
 import { ProfilePage } from '@/pages/profile/ProfilePage';
@@ -103,10 +103,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'dashboard/revenue',
+        path: 'dashboard/statistics',
         element: (
           <ProtectedRoute>
-            <RevenuePage />
+            <StatisticPage />
           </ProtectedRoute>
         ),
       },

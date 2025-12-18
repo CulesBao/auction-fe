@@ -53,21 +53,15 @@ export function MarketplacePage() {
   return (
     <div className="min-h-screen text-white" style={{ backgroundColor: COLORS.background }}>
       <div className="container mx-auto py-8 px-4">
-        {/* Header */}
         <PageHeader
-          title="Marketplace"
           description="Browse and bid on available items"
           breadcrumbs={[
             { label: 'Marketplace' },
           ]}
-          icon={Package}
-          iconColor="text-[#256af4]"
           className="mb-8"
         />
 
-        {/* Search & Filters */}
         <div className="mb-6 space-y-4">
-          {/* Search Bar */}
           <div className="flex gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -90,11 +84,9 @@ export function MarketplacePage() {
             </Button>
           </div>
 
-          {/* Filter Panel */}
           {showFilters && (
             <div className="border border-gray-800 rounded-lg p-6" style={{ backgroundColor: COLORS.card }}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Owner Name Filter */}
                 <div className="space-y-2">
                   <Label htmlFor="ownerName" className="text-gray-200">
                     Owner Name
@@ -109,7 +101,6 @@ export function MarketplacePage() {
                   />
                 </div>
 
-                {/* Price Range */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="priceFrom" className="text-gray-200">
@@ -142,7 +133,6 @@ export function MarketplacePage() {
                   </div>
                 </div>
 
-                {/* Start Date Filter */}
                 <div className="space-y-2">
                   <Label className="text-gray-200">Auction Start Date</Label>
                   <Popover>
@@ -160,14 +150,12 @@ export function MarketplacePage() {
                         mode="single"
                         selected={startDate}
                         onSelect={setStartDate}
-                        initialFocus
                         className="bg-[#1a1a1a] text-white"
                       />
                     </PopoverContent>
                   </Popover>
                 </div>
 
-                {/* End Date Filter */}
                 <div className="space-y-2">
                   <Label className="text-gray-200">Auction End Date</Label>
                   <Popover>
@@ -193,7 +181,6 @@ export function MarketplacePage() {
                 </div>
               </div>
 
-              {/* Clear Filters Button */}
               {hasActiveFilters && (
                 <div className="mt-6">
                   <Button
@@ -210,7 +197,6 @@ export function MarketplacePage() {
           )}
         </div>
 
-        {/* Results */}
         {isLoading && <ItemGridSkeleton count={8} />}
 
         {error && (
@@ -228,12 +214,10 @@ export function MarketplacePage() {
 
         {!isLoading && !error && data && (
           <>
-            {/* Results Count */}
             <div className="mb-4 text-sm text-gray-400">
               {data.length} {data.length === 1 ? 'item' : 'items'} found
             </div>
 
-            {/* Items Grid */}
             {data.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {data.map((item) => (

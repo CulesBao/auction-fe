@@ -101,7 +101,6 @@ export function ItemDetailPage() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white">
       <div className="container mx-auto py-8 px-4">
-        {/* Header with Breadcrumb */}
         <PageHeader
           breadcrumbs={
             isOwner
@@ -127,7 +126,6 @@ export function ItemDetailPage() {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             <ItemInfoSection item={item} currentPrice={currentPrice} minimumBid={minimumBid} />
 
@@ -147,7 +145,6 @@ export function ItemDetailPage() {
             )}
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
             <BidFormSection
               register={register}

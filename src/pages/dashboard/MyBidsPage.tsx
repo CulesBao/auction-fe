@@ -66,7 +66,6 @@ export function MyBidsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <PageHeader
         description="Track your active bids and see which auctions you're winning"
         breadcrumbs={[
@@ -75,7 +74,6 @@ export function MyBidsPage() {
         ]}
       />
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-[#242424] p-6 rounded-lg border border-gray-800">
           <div className="flex items-center gap-2 mb-2">
@@ -102,7 +100,6 @@ export function MyBidsPage() {
         </div>
       </div>
 
-      {/* Bids Table */}
       {bids.length > 0 ? (
         <div className="bg-[#242424] rounded-lg border border-gray-800">
           <Table>

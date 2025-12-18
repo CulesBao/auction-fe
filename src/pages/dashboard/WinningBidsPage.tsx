@@ -73,7 +73,6 @@ export function WinningBidsPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <PageHeader
         description="Items you've won in auctions"
         breadcrumbs={[
@@ -93,7 +92,6 @@ export function WinningBidsPage() {
         }
       />
 
-      {/* Summary Stats */}
       {winningItems.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
@@ -133,7 +131,6 @@ export function WinningBidsPage() {
         </div>
       )}
 
-      {/* Winning Items Table */}
       {winningItems.length > 0 ? (
         <div className="bg-[#242424] rounded-lg border border-gray-800">
           <Table>

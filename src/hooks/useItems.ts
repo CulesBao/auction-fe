@@ -81,11 +81,3 @@ export const useWinningBids = (userId: string) => {
         enabled: !!userId,
     });
 };
-
-export const useRevenue = (userId: string, startDate: string, endDate: string) => {
-    return useQuery({
-        queryKey: ['items', 'revenue', userId, startDate, endDate],
-        queryFn: () => itemService.getRevenue(userId, startDate, endDate),
-        enabled: !!userId && !!startDate && !!endDate,
-    });
-};

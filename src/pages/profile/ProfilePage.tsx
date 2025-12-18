@@ -36,15 +36,11 @@ export function ProfilePage() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white">
       <div className="container mx-auto py-8 px-4">
-        {/* Header */}
         <PageHeader
-          title="My Profile"
           description={`Welcome back, ${user.firstName}!`}
           breadcrumbs={[
             { label: 'Profile' },
           ]}
-          icon={User}
-          iconColor="text-[#256af4]"
           actions={
             <Link to="/settings">
               <Button variant="outline">
@@ -57,7 +53,6 @@ export function ProfilePage() {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Profile Card */}
           <div className="lg:col-span-1">
             <Card className="bg-[#242424] border-gray-800">
               <CardHeader className="text-center">
@@ -116,9 +111,7 @@ export function ProfilePage() {
             </Card>
           </div>
 
-          {/* Activity Stats */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Card className="bg-[#242424] border-gray-800">
                 <CardContent className="pt-6">
@@ -167,7 +160,6 @@ export function ProfilePage() {
               </Card>
             </div>
 
-            {/* Activity Summary */}
             <Card className="bg-[#242424] border-gray-800">
               <CardHeader>
                 <CardTitle>Activity Summary</CardTitle>
@@ -205,7 +197,6 @@ export function ProfilePage() {
               </CardContent>
             </Card>
 
-            {/* Quick Actions */}
             <Card className="bg-[#242424] border-gray-800">
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>

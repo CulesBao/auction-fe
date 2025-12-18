@@ -48,21 +48,16 @@ export function CreateItemPage() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white">
       <div className="container mx-auto py-8 px-4">
-        {/* Header with Breadcrumb */}
         <PageHeader
-          title="Create New Item"
           description="Fill in the details below to list your item for auction"
           breadcrumbs={[
             { label: 'Dashboard', href: '/dashboard/my-items' },
             { label: 'My Items', href: '/dashboard/my-items' },
             { label: 'Create Item' },
           ]}
-          icon={Plus}
-          iconColor="text-[#256af4]"
           className="mb-6"
         />
 
-        {/* Back Button */}
         <Link to="/dashboard/my-items">
           <Button variant="ghost" className="mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -70,7 +65,6 @@ export function CreateItemPage() {
           </Button>
         </Link>
 
-        {/* Form Card */}
         <div className="max-w-2xl mx-auto">
           <Card className="bg-[#242424] border-gray-800">
             <CardHeader>
@@ -81,7 +75,6 @@ export function CreateItemPage() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                {/* Item Name */}
                 <div className="space-y-2">
                   <Label htmlFor="name" className="text-gray-200">
                     Item Name *
@@ -97,7 +90,6 @@ export function CreateItemPage() {
                   )}
                 </div>
 
-                {/* Description */}
                 <div className="space-y-2">
                   <Label htmlFor="description" className="text-gray-200">
                     Description *
@@ -114,7 +106,6 @@ export function CreateItemPage() {
                   )}
                 </div>
 
-                {/* Starting Price */}
                 <div className="space-y-2">
                   <Label htmlFor="startingPrice" className="text-gray-200">
                     Starting Price (USD) *
@@ -133,7 +124,6 @@ export function CreateItemPage() {
                   )}
                 </div>
 
-                {/* Start Time */}
                 <div className="space-y-2">
                   <Label htmlFor="startTime" className="text-gray-200">
                     Auction Start Time *
@@ -158,7 +148,6 @@ export function CreateItemPage() {
                   </p>
                 </div>
 
-                {/* End Time */}
                 <div className="space-y-2">
                   <Label htmlFor="endTime" className="text-gray-200">
                     Auction End Time *
@@ -183,7 +172,6 @@ export function CreateItemPage() {
                   </p>
                 </div>
 
-                {/* Submit Buttons */}
                 <div className="flex gap-4 pt-4">
                   <Button
                     type="submit"

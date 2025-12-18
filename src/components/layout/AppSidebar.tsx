@@ -89,7 +89,6 @@ export function AppSidebar() {
             <SidebarGroupLabel>Navigation</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {/* Marketplace */}
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild isActive={isActive('/marketplace')}>
                     <Link to="/marketplace">
@@ -99,7 +98,6 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
-                {/* Dashboard - Collapsible */}
                 {user && (
                   <Collapsible open={dashboardOpen} onOpenChange={setDashboardOpen} className="group/collapsible">
                     <SidebarMenuItem>
@@ -137,10 +135,10 @@ export function AppSidebar() {
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
                           <SidebarMenuSubItem>
-                            <SidebarMenuSubButton asChild isActive={isActive('/dashboard/revenue')}>
-                              <Link to="/dashboard/revenue">
+                            <SidebarMenuSubButton asChild isActive={isActive('/dashboard/statistics')}>
+                              <Link to="/dashboard/statistics">
                                 <DollarSign />
-                                <span>Revenue</span>
+                                <span>Statistics</span>
                               </Link>
                             </SidebarMenuSubButton>
                           </SidebarMenuSubItem>
@@ -150,7 +148,6 @@ export function AppSidebar() {
                   </Collapsible>
                 )}
 
-                {/* Profile (only when logged in) */}
                 {user && (
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={isActive('/profile')}>
@@ -162,7 +159,6 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 )}
 
-                {/* Settings (only when logged in) */}
                 {user && (
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={isActive('/settings')}>
@@ -229,7 +225,6 @@ export function AppSidebar() {
         </SidebarFooter>
       </Sidebar>
 
-      {/* Logout Confirmation Dialog */}
       <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
         <AlertDialogContent className="bg-[#242424] border-gray-800">
           <AlertDialogHeader>

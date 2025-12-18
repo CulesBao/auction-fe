@@ -31,11 +31,9 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <div className={cn('space-y-4', className)}>
-      {/* Breadcrumb Navigation */}
       {breadcrumbs.length > 0 && (
         <Breadcrumb>
           <BreadcrumbList>
-            {/* Home Link */}
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
                 <Link to="/marketplace" className="flex items-center gap-1.5">
@@ -71,7 +69,6 @@ export function PageHeader({
         </Breadcrumb>
       )}
 
-      {/* Title & Description */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           {description && (
@@ -79,7 +76,6 @@ export function PageHeader({
           )}
         </div>
         
-        {/* Action Buttons */}
         {actions && (
           <div className="flex-shrink-0">
             {actions}

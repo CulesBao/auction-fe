@@ -31,7 +31,6 @@ export function ProfileFormFields({
 }: ProfileFormFieldsProps) {
   return (
     <div className="space-y-6">
-      {/* Name Fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="firstName" className="text-gray-200">
@@ -62,7 +61,6 @@ export function ProfileFormFields({
         </div>
       </div>
 
-      {/* Email */}
       <div className="space-y-2">
         <Label htmlFor="email" className="text-gray-200">
           Email Address *
@@ -77,7 +75,6 @@ export function ProfileFormFields({
         <p className="text-xs text-gray-400">Email cannot be changed</p>
       </div>
 
-      {/* Phone Number */}
       <div className="space-y-2">
         <Label htmlFor="phoneNumber" className="text-gray-200">
           Phone Number
@@ -90,7 +87,6 @@ export function ProfileFormFields({
         />
       </div>
 
-      {/* Birthday */}
       <div className="space-y-2">
         <Label htmlFor="birthday" className="text-gray-200">
           Birthday
@@ -109,7 +105,6 @@ export function ProfileFormFields({
         />
       </div>
 
-      {/* Gender */}
       <div className="space-y-2">
         <Label htmlFor="gender" className="text-gray-200">
           Gender

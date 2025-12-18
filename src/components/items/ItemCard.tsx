@@ -56,31 +56,26 @@ export function ItemCard({ item, showActions = true, className }: ItemCardProps)
         </p>
 
         <div className="space-y-2">
-          {/* Owner Information */}
           <ItemInfoRow
             label="Owner"
             value={ownerDisplayName}
             icon={<User className="h-4 w-4 text-gray-400" />}
           />
 
-          {/* Starting Price */}
           <ItemInfoRow
             label="Starting Price"
             value={<PriceDisplay amount={item.startingPrice} size="sm" />}
           />
 
-          {/* Current Price */}
           <ItemInfoRow
             label="Current Price"
             value={<PriceDisplay amount={item.finalPrice} size="md" />}
           />
 
-          {/* Total Bids */}
           {(item.totalBids ?? 0) > 0 && (
             <ItemInfoRow label="Bids" value={item.totalBids} />
           )}
 
-          {/* Time Left */}
           <ItemInfoRow
             label="Time Left"
             value={<CountdownTimer endTime={item.endTime} />}

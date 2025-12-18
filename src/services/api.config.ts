@@ -6,7 +6,6 @@ import type { AuthTokens } from '@/types/auth';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 const API_PREFIX = '/api/v1';
 
-// Token update callback - will be set by auth store
 let onTokensRefreshed: ((tokens: AuthTokens) => void) | null = null;
 
 export function setTokenRefreshCallback(callback: (tokens: AuthTokens) => void) {
@@ -20,7 +19,6 @@ export const apiClient = axios.create({
     },
 });
 
-// Request interceptor - Add auth token
 apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         const tokens = getStoredTokens();
@@ -32,7 +30,6 @@ apiClient.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Response interceptor - Handle token refresh
 let isRefreshing = false;
 let failedQueue: Array<{
     resolve: (value?: unknown) => void;
@@ -89,7 +86,6 @@ apiClient.interceptors.response.use(
 
                 storeTokens(newTokens);
 
-                // Update zustand store if callback is set
                 if (onTokensRefreshed) {
                     onTokensRefreshed(newTokens);
                 }
@@ -112,7 +108,6 @@ apiClient.interceptors.response.use(
     }
 );
 
-// Token storage helpers
 export function getStoredTokens(): AuthTokens | null {
     const stored = localStorage.getItem('auth_tokens');
     return stored ? JSON.parse(stored) : null;

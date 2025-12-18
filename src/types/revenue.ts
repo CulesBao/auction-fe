@@ -1,13 +1,3 @@
-// types/revenue.ts
-export interface RevenueData {
-    totalRevenue: number;
-    itemsSold: number;
-    startDate: string;
-    endDate: string;
-}
-
-export interface GetRevenueByOwnerIdResponseDto extends RevenueData { }
-
 export interface WinningBidItem {
     id: string;
     name: string;
