@@ -6,6 +6,7 @@ import type {
     GoogleTokenFormDto,
     AppleTokenFormDto,
     RefreshTokenFormDto,
+    ChangePasswordDto,
     AuthResultDto,
     CurrentUserDto,
 } from '@/types/auth';
@@ -38,6 +39,11 @@ export const authService = {
 
     async getCurrentUser(): Promise<CurrentUserDto> {
         const response = await apiClient.get('/auths/me');
+        return response.data;
+    },
+
+    async changePassword(data: ChangePasswordDto): Promise<void> {
+        const response = await apiClient.put('/auths/change-password', data);
         return response.data;
     },
 };

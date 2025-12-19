@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 interface PasswordFormData {
   currentPassword: string;
   newPassword: string;
-  confirmPassword: string;
+  confirmNewPassword: string;
 }
 
 interface PasswordFormFieldsProps {
@@ -50,17 +50,17 @@ export function PasswordFormFields({ register, errors }: PasswordFormFieldsProps
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="confirmPassword" className="text-gray-200">
+        <Label htmlFor="confirmNewPassword" className="text-gray-200">
           Confirm New Password *
         </Label>
         <Input
-          id="confirmPassword"
+          id="confirmNewPassword"
           type="password"
-          {...register('confirmPassword')}
+          {...register('confirmNewPassword')}
           className="bg-[#1a1a1a] border-gray-700 text-white"
         />
-        {errors.confirmPassword && (
-          <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+        {errors.confirmNewPassword && (
+          <p className="text-red-500 text-sm">{errors.confirmNewPassword.message}</p>
         )}
       </div>
     </div>

@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuthStore } from '@/store/auth.store';
+import { authService } from '@/services/auth.service';
+import { changePasswordSchema } from '@/schemas/auth.schemas';
+import { handleApiError } from '@/utils/error-handler';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { PageHeader } from '@/components/layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,17 +29,8 @@ const profileSchema = z.object({
   gender: z.enum(['male', 'female', 'other']).optional(),
 });
 
-const passwordSchema = z.object({
-  currentPassword: z.string().min(8, 'Password must be at least 8 characters'),
-  newPassword: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string().min(8, 'Password must be at least 8 characters'),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
-});
-
 type ProfileFormData = z.infer<typeof profileSchema>;
-type PasswordFormData = z.infer<typeof passwordSchema>;
+type PasswordFormData = z.infer<typeof changePasswordSchema>;
 
 export function SettingsPage() {
   const { user } = useAuthStore();
@@ -68,7 +62,7 @@ export function SettingsPage() {
     formState: { errors: passwordErrors },
     reset: resetPassword,
   } = useForm<PasswordFormData>({
-    resolver: zodResolver(passwordSchema),
+    resolver: zodResolver(changePasswordSchema),
   });
 
   const onSubmitProfile = async (data: ProfileFormData) => {
@@ -83,14 +77,14 @@ export function SettingsPage() {
     }
   };
 
-  const onSubmitPassword = async (_data: PasswordFormData) => {
+  const onSubmitPassword = async (data: PasswordFormData) => {
     setIsSubmittingPassword(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await authService.changePassword(data);
       toast.success('Password changed successfully');
       resetPassword();
     } catch (error) {
-      toast.error('Failed to change password');
+      handleApiError(error);
     } finally {
       setIsSubmittingPassword(false);
     }
