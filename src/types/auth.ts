@@ -6,7 +6,7 @@ export interface User {
     email: string;
     fullName?: string;
     picture?: string;
-    gender?: 'male' | 'female' | 'other';
+    gender?: 'MALE' | 'FEMALE' | 'OTHER';
     role: 'USER' | 'ADMIN';
     birthday?: string;
     phoneNumber?: string;
@@ -15,7 +15,7 @@ export interface User {
 }
 
 export type UserRole = 'USER' | 'ADMIN';
-export type Gender = 'male' | 'female' | 'other';
+export type Gender = 'MALE' | 'FEMALE' | 'OTHER';
 
 export interface AuthTokens {
     accessToken: string;

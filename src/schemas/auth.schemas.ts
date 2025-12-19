@@ -11,7 +11,7 @@ export const registerSchema = z.object({
         .max(100),
     phoneNumber: z.string().optional(),
     birthday: z.string().optional(),
-    gender: z.enum(['male', 'female', 'other']).optional(),
+    gender: z.enum(['MALE', 'FEMALE']).optional(),
 });
 
 export const loginSchema = z.object({
