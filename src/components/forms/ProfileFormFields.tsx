@@ -11,7 +11,7 @@ interface ProfileFormData {
   email: string;
   phoneNumber?: string;
   birthday?: Date;
-  gender?: 'male' | 'female' | 'other';
+  gender?: 'MALE' | 'FEMALE';
 }
 
 interface ProfileFormFieldsProps {
@@ -111,7 +111,7 @@ export function ProfileFormFields({
         </Label>
         <Select
           defaultValue={userGender}
-          onValueChange={(value) => setValue('gender', value as any)}
+          onValueChange={(value) => setValue('gender', value as string)}
         >
           <SelectTrigger className="bg-[#1a1a1a] border-gray-700 text-white">
             <SelectValue placeholder="Select gender" />

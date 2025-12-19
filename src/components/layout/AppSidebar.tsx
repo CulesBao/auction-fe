@@ -35,11 +35,11 @@ import {
   LayoutDashboard,
   Package,
   Trophy,
-  DollarSign,
   User,
   Settings,
   LogOut,
   ChevronDown,
+  Activity,
 } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
@@ -137,7 +137,7 @@ export function AppSidebar() {
                           <SidebarMenuSubItem>
                             <SidebarMenuSubButton asChild isActive={isActive('/dashboard/statistics')}>
                               <Link to="/dashboard/statistics">
-                                <DollarSign />
+                                <Activity />
                                 <span>Statistics</span>
                               </Link>
                             </SidebarMenuSubButton>

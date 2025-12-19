@@ -36,7 +36,7 @@ export function parseDate(date: string | Date | number): Date {
     return new Date(date);
 }
 
-export function formatCurrency(amount: number, currency: string = 'USD', showCurrency: boolean = true): string {
+export function formatCurrency(amount: number, showCurrency: boolean = false, currency: string = 'USD'): string {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency,
@@ -45,7 +45,7 @@ export function formatCurrency(amount: number, currency: string = 'USD', showCur
     });
 
     if (!showCurrency) {
-        return formatter.format(amount).replace(/[A-Z]{3}\s?/, '');
+        return formatter.format(amount).replace(/[$€£¥₹]\s?|[A-Z]{3}\s?/g, '').trim();
     }
 
     return formatter.format(amount);

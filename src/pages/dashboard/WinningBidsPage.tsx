@@ -1,4 +1,3 @@
-// pages/dashboard/WinningBidsPage.tsx
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth.store';
 import { useWinningBids } from '@/hooks/useItems';
@@ -6,7 +5,6 @@ import { PriceDisplay } from '@/components/ui/PriceDisplay';
 import { TableSkeleton } from '@/components/ui/LoadingSpinner';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageHeader } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -16,7 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Download, Trophy, Calendar, Eye } from 'lucide-react';
+import { Download, Trophy, Calendar, Eye, DollarSign, Target } from 'lucide-react';
 import { formatDateTime } from '@/utils/formatters';
 import { itemService } from '@/services/item.service';
 import { toast } from 'sonner';
@@ -47,13 +45,6 @@ export function WinningBidsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <PageHeader
-          description="Items you've won in auctions"
-          breadcrumbs={[
-            { label: 'Dashboard', href: '/dashboard/my-items' },
-            { label: 'Winning Bids' },
-          ]}
-        />
         <TableSkeleton rows={5} />
       </div>
     );
@@ -73,60 +64,70 @@ export function WinningBidsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        description="Items you've won in auctions"
-        breadcrumbs={[
-          { label: 'Dashboard', href: '/dashboard/my-items' },
-          { label: 'Winning Bids' },
-        ]}
-        actions={
-          winningItems.length > 0 && (
-            <Button
-              onClick={handleDownloadPDF}
-              className="bg-[#256af4] hover:bg-[#1e5dd9]"
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Export PDF
-            </Button>
-          )
-        }
-      />
+      {winningItems.length > 0 && (
+        <div className="flex items-center justify-end mb-4">
+          <Button 
+            onClick={handleDownloadPDF}
+            className="bg-[#256af4] hover:bg-[#1e5dd9]"
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Export PDF
+          </Button>
+        </div>
+      )}
 
       {winningItems.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
-            <p className="text-gray-400 text-sm">Total Items Won</p>
-            <p className="text-2xl font-bold mt-1">{winningItems.length}</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm">Total Items Won</p>
+                <p className="text-2xl font-bold mt-1 text-white">{winningItems.length}</p>
+              </div>
+              <Trophy className="h-8 w-8 text-yellow-500" />
+            </div>
           </div>
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
-            <p className="text-gray-400 text-sm">Total Spent</p>
-            <p className="text-2xl font-bold mt-1">
-              <PriceDisplay
-                amount={winningItems.reduce((sum, item) => {
-                  const price = typeof item.finalPrice === 'string' 
-                    ? parseFloat(item.finalPrice) 
-                    : item.finalPrice;
-                  return sum + price;
-                }, 0)}
-                showIcon={false}
-                size="lg"
-              />
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm">Total Spent</p>
+                <p className="text-2xl font-bold mt-1 text-white">
+                  <PriceDisplay
+                    amount={winningItems.reduce((sum, item) => {
+                      const price = typeof item.finalPrice === 'string' 
+                        ? parseFloat(item.finalPrice) 
+                        : item.finalPrice;
+                      return sum + price;
+                    }, 0)}
+                    showIcon={false}
+                    showCurrency={false}
+                    size="lg"
+                  />
+                </p>
+              </div>
+              <DollarSign className="h-8 w-8 text-green-500" />
+            </div>
           </div>
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
-            <p className="text-gray-400 text-sm">Average Win Price</p>
-            <p className="text-2xl font-bold mt-1">
-              <PriceDisplay
-                amount={winningItems.reduce((sum, item) => {
-                  const price = typeof item.finalPrice === 'string' 
-                    ? parseFloat(item.finalPrice) 
-                    : item.finalPrice;
-                  return sum + price;
-                }, 0) / winningItems.length}
-                showIcon={false}
-                size="lg"
-              />
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm">Average Win Price</p>
+                <p className="text-2xl font-bold mt-1 text-white">
+                  <PriceDisplay
+                    amount={winningItems.reduce((sum, item) => {
+                      const price = typeof item.finalPrice === 'string' 
+                        ? parseFloat(item.finalPrice) 
+                        : item.finalPrice;
+                      return sum + price;
+                    }, 0) / winningItems.length}
+                    showIcon={false}
+                    showCurrency={false}
+                    size="lg"
+                  />
+                </p>
+              </div>
+              <Target className="h-8 w-8 text-blue-500" />
+            </div>
           </div>
         </div>
       )}
@@ -168,11 +169,11 @@ export function WinningBidsPage() {
                       {item.ownerName}
                     </TableCell>
                     <TableCell>
-                      <PriceDisplay amount={startingPrice} showIcon={true} />
+                      <PriceDisplay amount={startingPrice} showIcon={true} showCurrency={false} />
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <PriceDisplay amount={finalPrice} showIcon={true} size="md" />
+                        <PriceDisplay amount={finalPrice} showIcon={true} showCurrency={false} size="md" />
                       </div>
                     </TableCell>
                     <TableCell className="text-sm text-gray-400">

@@ -1,6 +1,6 @@
 // pages/items/ItemDetailPage.tsx
 import { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useItem } from '@/hooks/useItems';
@@ -12,7 +12,6 @@ import { BidFormSection } from '@/components/items/BidFormSection';
 import { WinnerSection } from '@/components/items/WinnerSection';
 import { ItemDetailSkeleton } from '@/components/ui/LoadingSpinner';
 import { ErrorPage } from '@/components/ui/ErrorState';
-import { PageHeader } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -25,7 +24,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { ArrowLeft, Lock, Package } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import { placeBidSchema } from '@/schemas/bid.schemas';
 import type { PlaceBidForm } from '@/types/bid';
 import { canPlaceBid } from '@/utils/validators';
@@ -101,30 +100,6 @@ export function ItemDetailPage() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white">
       <div className="container mx-auto py-8 px-4">
-        <PageHeader
-          breadcrumbs={
-            isOwner
-              ? [
-                  { label: 'Dashboard', href: '/dashboard/my-items' },
-                  { label: 'My Items', href: '/dashboard/my-items' },
-                  { label: item.name },
-                ]
-              : [
-                  { label: 'Marketplace', href: '/marketplace' },
-                  { label: item.name },
-                ]
-          }
-          actions={
-            <Link to={isOwner ? '/dashboard/my-items' : '/marketplace'}>
-              <Button variant="ghost">
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                {isOwner ? 'Back to My Items' : 'Back to Marketplace'}
-              </Button>
-            </Link>
-          }
-          className="mb-6"
-        />
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <ItemInfoSection item={item} currentPrice={currentPrice} minimumBid={minimumBid} />
@@ -134,14 +109,7 @@ export function ItemDetailPage() {
             )}
 
             {item.bidHistory && item.bidHistory.length > 0 && (
-              <Card className="bg-[#242424] border-gray-800">
-                <CardHeader>
-                  <CardTitle>Bid History</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <BidHistoryTable bidHistory={item.bidHistory} />
-                </CardContent>
-              </Card>
+                <BidHistoryTable bidHistory={item.bidHistory} />
             )}
           </div>
 

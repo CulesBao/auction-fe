@@ -1,11 +1,11 @@
 // types/item.ts
-import { BidHistoryItem } from './bid';
+import type { BidHistoryItem } from './bid';
 
 export interface Item {
     id: string;
     name: string;
     description: string;
-    startingPrice: string | number;
+    startingPrice: number;
     currentBid?: number;
     totalBids?: number;
     startTime: string;

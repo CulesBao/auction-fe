@@ -112,6 +112,7 @@ export function BidHistoryTable({ bidHistory, totalBids }: BidHistoryTableProps)
                     <PriceDisplay
                       amount={typeof bid.price === 'string' ? parseFloat(bid.price) : bid.price}
                       size={isHighest ? "md" : "sm"}
+                      showCurrency={false}
                       className={isHighest ? "font-bold text-white justify-end" : "text-slate-300 justify-end"}
                     />
                   </TableCell>

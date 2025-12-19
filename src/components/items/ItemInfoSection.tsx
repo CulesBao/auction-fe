@@ -68,7 +68,7 @@ export function ItemInfoSection({ item, currentPrice, minimumBid }: ItemInfoSect
             <DollarSign className="h-5 w-5 text-gray-400" />
             <div>
               <p className="text-sm text-gray-400">Starting Price</p>
-              <PriceDisplay amount={item.startingPrice} showIcon={false} />
+              <PriceDisplay amount={item.startingPrice} showIcon={false} showCurrency={false} size='md' />
             </div>
           </div>
 
@@ -76,7 +76,7 @@ export function ItemInfoSection({ item, currentPrice, minimumBid }: ItemInfoSect
             <DollarSign className="h-5 w-5 text-green-500" />
             <div>
               <p className="text-sm text-gray-400">Current Price</p>
-              <PriceDisplay amount={currentPrice} showIcon={false} size="lg" />
+              <PriceDisplay amount={currentPrice} showIcon={false} showCurrency={false} size="lg" />
             </div>
           </div>
 
@@ -84,7 +84,7 @@ export function ItemInfoSection({ item, currentPrice, minimumBid }: ItemInfoSect
             <Gavel className="h-5 w-5 text-blue-500" />
             <div>
               <p className="text-sm text-gray-400">Minimum Next Bid</p>
-              <PriceDisplay amount={minimumBid} showIcon={false} size="lg" className="text-blue-400" />
+              <PriceDisplay amount={minimumBid} showIcon={false} showCurrency={false} size="lg" className="text-blue-400" />
             </div>
           </div>
         </div>

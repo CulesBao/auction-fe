@@ -1,4 +1,3 @@
-// pages/profile/SettingsPage.tsx
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,7 +7,6 @@ import { authService } from '@/services/auth.service';
 import { changePasswordSchema } from '@/schemas/auth.schemas';
 import { handleApiError } from '@/utils/error-handler';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { PageHeader } from '@/components/layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -16,17 +14,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProfileFormFields } from '@/components/forms/ProfileFormFields';
 import { PasswordFormFields } from '@/components/forms/PasswordFormFields';
 import { NotificationSettings } from '@/components/forms/NotificationSettings';
-import { Save, User, Lock, Bell, Settings } from 'lucide-react';
+import { Save, User, Lock, Bell } from 'lucide-react';
 import { toast } from 'sonner';
 
-// Validation schemas
 const profileSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   email: z.string().email('Invalid email address'),
   phoneNumber: z.string().optional(),
   birthday: z.date().optional(),
-  gender: z.enum(['male', 'female', 'other']).optional(),
+  gender: z.enum(['MALE', 'FEMALE']).optional(),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
@@ -65,7 +62,7 @@ export function SettingsPage() {
     resolver: zodResolver(changePasswordSchema),
   });
 
-  const onSubmitProfile = async (data: ProfileFormData) => {
+  const onSubmitProfile = async (_: ProfileFormData) => {
     setIsSubmittingProfile(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -92,25 +89,15 @@ export function SettingsPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center">
+      <div className="flex items-center justify-center py-12">
         <p className="text-gray-400">Please login to access settings</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white">
-      <div className="container mx-auto py-8 px-4">
-        <PageHeader
-          description="Manage your account settings and preferences"
-          breadcrumbs={[
-            { label: 'Profile', href: '/profile' },
-            { label: 'Settings' },
-          ]}
-          className="mb-8"
-        />
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+    <>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="bg-[#242424] border border-gray-800">
             <TabsTrigger value="profile" className="data-[state=active]:bg-[#256af4]">
               <User className="h-4 w-4 mr-2" />
@@ -222,7 +209,6 @@ export function SettingsPage() {
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
-    </div>
+    </>
   );
 }

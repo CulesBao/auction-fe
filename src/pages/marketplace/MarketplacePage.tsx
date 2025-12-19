@@ -1,11 +1,9 @@
-// pages/marketplace/MarketplacePage.tsx
 import { useState } from 'react';
 import { useItems } from '@/hooks/useItems';
 import { ItemCard } from '@/components/items';
 import { ItemGridSkeleton } from '@/components/ui/LoadingSpinner';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageHeader } from '@/components/layout';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -51,17 +49,8 @@ export function MarketplacePage() {
   const hasActiveFilters = nameFilter || ownerNameFilter || priceFrom || priceTo || startDate || endDate;
 
   return (
-    <div className="min-h-screen text-white" style={{ backgroundColor: COLORS.background }}>
-      <div className="container mx-auto py-8 px-4">
-        <PageHeader
-          description="Browse and bid on available items"
-          breadcrumbs={[
-            { label: 'Marketplace' },
-          ]}
-          className="mb-8"
-        />
-
-        <div className="mb-6 space-y-4">
+    <>
+      <div className="mb-6 space-y-4">
           <div className="flex gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -235,7 +224,6 @@ export function MarketplacePage() {
             )}
           </>
         )}
-      </div>
-    </div>
-  );
-}
+      </>
+    );
+  }

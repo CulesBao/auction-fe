@@ -40,7 +40,7 @@ export function WinnerSection({ winnerName, finalPrice }: WinnerSectionProps) {
             </div>
             <div className="flex items-center gap-2">
               <p className="text-sm text-gray-400">Winning Bid:</p>
-              <PriceDisplay amount={finalPrice} size="lg" className="text-yellow-400" />
+              <PriceDisplay amount={finalPrice} size="lg" className="text-yellow-400" showIcon={false} />
             </div>
           </div>
         </div>

@@ -1,12 +1,10 @@
-// pages/profile/ProfilePage.tsx
 import { useAuthStore } from '@/store/auth.store';
-import { PageHeader } from '@/components/layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { User, Mail, Phone, Calendar, Settings, Package, Gavel, Trophy } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Package, Gavel, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatDate, parseDate } from '@/utils/formatters';
 import { useItems, useWinningBids } from '@/hooks/useItems';
@@ -34,25 +32,8 @@ export function ProfilePage() {
   ).length || 0;
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white">
-      <div className="container mx-auto py-8 px-4">
-        <PageHeader
-          description={`Welcome back, ${user.firstName}!`}
-          breadcrumbs={[
-            { label: 'Profile' },
-          ]}
-          actions={
-            <Link to="/settings">
-              <Button variant="outline">
-                <Settings className="h-4 w-4 mr-2" />
-                Settings
-              </Button>
-            </Link>
-          }
-          className="mb-8"
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1">
             <Card className="bg-[#242424] border-gray-800">
               <CardHeader className="text-center">
@@ -228,7 +209,6 @@ export function ProfilePage() {
             </Card>
           </div>
         </div>
-      </div>
-    </div>
+    </>
   );
 }

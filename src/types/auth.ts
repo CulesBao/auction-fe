@@ -1,4 +1,3 @@
-// types/auth.ts
 export interface User {
     id: string;
     firstName: string;
@@ -6,7 +5,7 @@ export interface User {
     email: string;
     fullName?: string;
     picture?: string;
-    gender?: 'MALE' | 'FEMALE' | 'OTHER';
+    gender?: 'MALE' | 'FEMALE';
     role: 'USER' | 'ADMIN';
     birthday?: string;
     phoneNumber?: string;
@@ -15,7 +14,7 @@ export interface User {
 }
 
 export type UserRole = 'USER' | 'ADMIN';
-export type Gender = 'MALE' | 'FEMALE' | 'OTHER';
+export type Gender = 'MALE' | 'FEMALE';
 
 export interface AuthTokens {
     accessToken: string;

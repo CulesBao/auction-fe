@@ -1,6 +1,4 @@
-// pages/dashboard/StatisticsPage.tsx
 import { useState } from 'react';
-import { PageHeader } from '@/components/layout';
 import { DollarSign, TrendingUp, Package, ShoppingCart, Award } from 'lucide-react';
 import {
   StatCard,
@@ -79,13 +77,6 @@ export function StatisticPage() {
   if (!statistics) {
     return (
       <div className="space-y-6">
-        <PageHeader
-          description="View comprehensive statistics and analytics"
-          breadcrumbs={[
-            { label: 'Dashboard', href: '/dashboard/my-items' },
-            { label: 'Statistics' },
-          ]}
-        />
         <DateRangeFilter
           startDate={startDate}
           endDate={endDate}
@@ -107,14 +98,6 @@ export function StatisticPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        description="View comprehensive statistics and analytics"
-        breadcrumbs={[
-          { label: 'Dashboard', href: '/dashboard/my-items' },
-          { label: 'Statistics' },
-        ]}
-      />
-
       <DateRangeFilter
         startDate={startDate}
         endDate={endDate}

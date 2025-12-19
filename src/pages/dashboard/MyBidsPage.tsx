@@ -1,4 +1,3 @@
-// pages/dashboard/MyBidsPage.tsx
 import { Link } from 'react-router-dom';
 import { useMyBids } from '@/hooks/useBids';
 import type { MyBidItem } from '@/types/bid';
@@ -7,7 +6,6 @@ import { CountdownTimer } from '@/components/ui/CountdownTimer';
 import { TableSkeleton } from '@/components/ui/LoadingSpinner';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageHeader } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -28,13 +26,6 @@ export function MyBidsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <PageHeader
-          description="Track your active bids and see which auctions you're winning"
-          breadcrumbs={[
-            { label: 'Dashboard', href: '/dashboard/my-items' },
-            { label: 'My Bids' },
-          ]}
-        />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
             <div key={i} className="bg-[#242424] p-6 rounded-lg border border-gray-800 space-y-3">
@@ -66,37 +57,37 @@ export function MyBidsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        description="Track your active bids and see which auctions you're winning"
-        breadcrumbs={[
-          { label: 'Dashboard', href: '/dashboard/my-items' },
-          { label: 'My Bids' },
-        ]}
-      />
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#242424] p-6 rounded-lg border border-gray-800">
-          <div className="flex items-center gap-2 mb-2">
-            <Gavel className="h-5 w-5 text-[#256af4]" />
-            <h3 className="text-gray-400 text-sm">Total Active Bids</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Total Active Bids</p>
+              <p className="text-2xl font-bold mt-1 text-white">{activeBidsCount}</p>
+            </div>
+            <Gavel className="h-8 w-8 text-purple-500" />
           </div>
-          <p className="text-3xl font-bold">{activeBidsCount}</p>
         </div>
 
-        <div className="bg-[#242424] p-6 rounded-lg border border-gray-800">
-          <div className="flex items-center gap-2 mb-2">
-            <Trophy className="h-5 w-5 text-green-500" />
-            <h3 className="text-gray-400 text-sm">Currently Winning</h3>
+        <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Currently Winning</p>
+              <p className="text-2xl font-bold mt-1 text-green-500">{activeWinningBidsCount}</p>
+            </div>
+            <Trophy className="h-8 w-8 text-yellow-500" />
           </div>
-          <p className="text-3xl font-bold text-green-500">{activeWinningBidsCount}</p>
         </div>
 
-        <div className="bg-[#242424] p-6 rounded-lg border border-gray-800">
-          <div className="flex items-center gap-2 mb-2">
-            <DollarSign className="h-5 w-5 text-green-500" />
-            <h3 className="text-gray-400 text-sm">Total Bid Amount</h3>
+        <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-gray-400 text-sm">Total Bid Amount</p>
+              <p className="text-2xl font-bold mt-1 text-white">
+                <PriceDisplay amount={activeWinningBidsSum} size="lg" showIcon={false} showCurrency={false} />
+              </p>
+            </div>
+            <DollarSign className="h-8 w-8 text-green-500" />
           </div>
-          <PriceDisplay amount={activeWinningBidsSum} size="lg" showIcon={false} />
         </div>
       </div>
 
@@ -129,10 +120,9 @@ export function MyBidsPage() {
                       </Link>
                     </TableCell>
                     <TableCell>
-                      <PriceDisplay amount={bidPrice} showIcon={true} />
+                      <PriceDisplay amount={bidPrice} showIcon={true} showCurrency={false} />
                     </TableCell>
-                    <TableCell className="text-sm text-gray-400">
-                      {formatDateTime(bid.itemEndTime)}
+                    <TableCell className="text-sm text-gray-400">{formatDateTime(bid.itemEndTime)}
                     </TableCell>
                     <TableCell>
                       {isEnded ? (

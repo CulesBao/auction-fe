@@ -1,4 +1,3 @@
-// pages/items/CreateItemPage.tsx
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,7 +5,6 @@ import { useCreateItem } from '@/hooks/useItems';
 import { createItemSchema } from '@/schemas/item.schemas';
 import type { CreateItemForm } from '@/types/item';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { PageHeader } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -46,26 +44,15 @@ export function CreateItemPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white">
-      <div className="container mx-auto py-8 px-4">
-        <PageHeader
-          description="Fill in the details below to list your item for auction"
-          breadcrumbs={[
-            { label: 'Dashboard', href: '/dashboard/my-items' },
-            { label: 'My Items', href: '/dashboard/my-items' },
-            { label: 'Create Item' },
-          ]}
-          className="mb-6"
-        />
+    <>
+      <Link to="/dashboard/my-items">
+        <Button variant="ghost" className="mb-6">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to My Items
+        </Button>
+      </Link>
 
-        <Link to="/dashboard/my-items">
-          <Button variant="ghost" className="mb-6">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to My Items
-          </Button>
-        </Link>
-
-        <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto">
           <Card className="bg-[#242424] border-gray-800">
             <CardHeader>
               <CardTitle className="text-2xl">Create New Auction Item</CardTitle>
@@ -203,7 +190,6 @@ export function CreateItemPage() {
             </CardContent>
           </Card>
         </div>
-      </div>
-    </div>
+    </>
   );
 }

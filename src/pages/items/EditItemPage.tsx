@@ -1,4 +1,3 @@
-// pages/items/EditItemPage.tsx
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
@@ -8,7 +7,6 @@ import { createItemSchema } from '@/schemas/item.schemas';
 import type { CreateItemForm } from '@/types/item';
 import { ItemDetailSkeleton, LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { ErrorState } from '@/components/ui/ErrorState';
-import { PageHeader } from '@/components/layout';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,8 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { DateTimePicker } from '@/components/ui/datetime-picker';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Save, Edit } from 'lucide-react';
-import { format } from 'date-fns';
+import { ArrowLeft, Save } from 'lucide-react';
 import { parseDate } from '@/utils/formatters';
 
 export function EditItemPage() {
@@ -77,44 +74,30 @@ export function EditItemPage() {
   // Check if item has bids (cannot edit if has bids)
   if ((item.totalBids ?? 0) > 0) {
     return (
-      <div className="min-h-screen bg-[#1a1a1a] text-white">
-        <div className="container mx-auto py-8 px-4 max-w-2xl">
-          <Alert className="border-yellow-600 bg-yellow-950/20">
-            <AlertTitle className="text-yellow-500 text-xl mb-2">Cannot Edit Item</AlertTitle>
-            <AlertDescription className="text-gray-300 mb-4">
-              This item already has {item.totalBids} bid(s) and cannot be edited.
-            </AlertDescription>
-            <Button onClick={() => navigate('/dashboard/my-items')} variant="outline" className="mt-2">
-              Back to My Items
-            </Button>
-          </Alert>
-        </div>
+      <div className="max-w-2xl">
+        <Alert className="border-yellow-600 bg-yellow-950/20">
+          <AlertTitle className="text-yellow-500 text-xl mb-2">Cannot Edit Item</AlertTitle>
+          <AlertDescription className="text-gray-300 mb-4">
+            This item already has {item.totalBids} bid(s) and cannot be edited.
+          </AlertDescription>
+          <Button onClick={() => navigate('/dashboard/my-items')} variant="outline" className="mt-2">
+            Back to My Items
+          </Button>
+        </Alert>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white">
-      <div className="container mx-auto py-8 px-4">
-        <PageHeader
-          description="Update your item details below"
-          breadcrumbs={[
-            { label: 'Dashboard', href: '/dashboard/my-items' },
-            { label: 'My Items', href: '/dashboard/my-items' },
-            { label: item.name, href: `/items/${id}` },
-            { label: 'Edit' },
-          ]}
-          className="mb-6"
-        />
-        
-        <Link to="/dashboard/my-items">
-          <Button variant="ghost" className="mb-6">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to My Items
-          </Button>
-        </Link>
+    <>
+      <Link to="/dashboard/my-items">
+        <Button variant="ghost" className="mb-6">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to My Items
+        </Button>
+      </Link>
 
-        <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto">
           <Card className="bg-[#242424] border-gray-800">
             <CardHeader>
               <CardTitle className="text-2xl">Edit Auction Item</CardTitle>
@@ -185,7 +168,6 @@ export function EditItemPage() {
                         value={field.value}
                         onChange={field.onChange}
                         placeholder="Select start date and time"
-                        disabled={hasBids}
                       />
                     )}
                   />
@@ -206,7 +188,6 @@ export function EditItemPage() {
                         value={field.value}
                         onChange={field.onChange}
                         placeholder="Select end date and time"
-                        disabled={hasBids}
                       />
                     )}
                   />
@@ -246,8 +227,7 @@ export function EditItemPage() {
             </CardContent>
           </Card>
         </div>
-      </div>
-    </div>
+    </>
   );
 }
 

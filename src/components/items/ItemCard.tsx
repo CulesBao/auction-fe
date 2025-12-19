@@ -64,12 +64,12 @@ export function ItemCard({ item, showActions = true, className }: ItemCardProps)
 
           <ItemInfoRow
             label="Starting Price"
-            value={<PriceDisplay amount={item.startingPrice} size="sm" />}
+            value={<PriceDisplay amount={item.startingPrice} size="sm" showIcon={true} showCurrency={false} />}
           />
 
           <ItemInfoRow
             label="Current Price"
-            value={<PriceDisplay amount={item.finalPrice} size="md" />}
+            value={<PriceDisplay amount={item.finalPrice} size="md" showIcon={true} showCurrency={false} />}
           />
 
           {(item.totalBids ?? 0) > 0 && (

@@ -1,4 +1,3 @@
-// pages/dashboard/MyItemsPage.tsx
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth.store';
 import { useMyItems, useLockItem } from '@/hooks/useItems';
@@ -7,7 +6,6 @@ import { StatusBadge } from '@/components/ui/StatusBadge';
 import { TableSkeleton } from '@/components/ui/LoadingSpinner';
 import { ErrorState } from '@/components/ui/ErrorState';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { PageHeader } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -23,7 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Eye, Edit, Lock, MoreVertical, Plus, Package } from 'lucide-react';
+import { Eye, Edit, Lock, MoreVertical, Plus, Package, Activity, Gavel, Target } from 'lucide-react';
 import { formatDateTime, parseDate } from '@/utils/formatters';
 
 export function MyItemsPage() {
@@ -38,21 +36,6 @@ export function MyItemsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <PageHeader
-          description="Manage your auction items"
-          breadcrumbs={[
-            { label: 'Dashboard', href: '/dashboard/my-items' },
-            { label: 'My Items' },
-          ]}
-          actions={
-            <Link to="/items/create">
-              <Button className="bg-[#256af4] hover:bg-[#1e5dd9]">
-                <Plus className="h-4 w-4 mr-2" />
-                Create Item
-              </Button>
-            </Link>
-          }
-        />
         <TableSkeleton rows={5} />
       </div>
     );
@@ -70,50 +53,63 @@ export function MyItemsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        description="Manage your auction items"
-        breadcrumbs={[
-          { label: 'Dashboard', href: '/dashboard/my-items' },
-          { label: 'My Items' },
-        ]}
-        actions={
-          <Link to="/items/create">
-            <Button className="bg-[#256af4] hover:bg-[#1e5dd9]">
-              <Plus className="h-4 w-4 mr-2" />
-              Create Item
-            </Button>
-          </Link>
-        }
-      />
+      <div className="flex items-center justify-end">
+        <Link to="/items/create">
+          <Button className="bg-[#256af4] hover:bg-[#1e5dd9]">
+            <Plus className="h-4 w-4 mr-2" />
+            Create Item
+          </Button>
+        </Link>
+      </div>
 
       {data && data.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
-            <p className="text-gray-400 text-sm">Total Items</p>
-            <p className="text-2xl font-bold mt-1 text-white">{data.length}</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm">Total Items</p>
+                <p className="text-2xl font-bold mt-1 text-white">{data.length}</p>
+              </div>
+              <Package className="h-8 w-8 text-blue-500" />
+            </div>
           </div>
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
-            <p className="text-gray-400 text-sm">Active Auctions</p>
-            <p className="text-2xl font-bold mt-1 text-white">
-              {data.filter((item) => {
-                const now = new Date();
-                const startTime = parseDate(item.startTime);
-                const endTime = parseDate(item.endTime);
-                return startTime <= now && endTime > now;
-              }).length}
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm">Active Auctions</p>
+                <p className="text-2xl font-bold mt-1 text-white">
+                  {data.filter((item) => {
+                    const now = new Date();
+                    const startTime = parseDate(item.startTime);
+                    const endTime = parseDate(item.endTime);
+                    return startTime <= now && endTime > now;
+                  }).length}
+                </p>
+              </div>
+              <Activity className="h-8 w-8 text-green-500" />
+            </div>
           </div>
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
-            <p className="text-gray-400 text-sm">Total Bids</p>
-            <p className="text-2xl font-bold mt-1 text-white">
-              {data.reduce((sum, item) => sum + item.bidsCount, 0)}
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm">Total Bids</p>
+                <p className="text-2xl font-bold mt-1 text-white">
+                  {data.reduce((sum, item) => sum + item.bidsCount, 0)}
+                </p>
+              </div>
+              <Gavel className="h-8 w-8 text-purple-500" />
+            </div>
           </div>
           <div className="bg-[#242424] rounded-lg p-4 border border-gray-800">
-            <p className="text-gray-400 text-sm">Items with Bids</p>
-            <p className="text-2xl font-bold mt-1 text-white">
-              {data.filter((item) => item.bidsCount > 0).length}
-            </p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-gray-400 text-sm">Items with Bids</p>
+                <p className="text-2xl font-bold mt-1 text-white">
+                  {data.filter((item) => item.bidsCount > 0).length}
+                </p>
+              </div>
+              <Target className="h-8 w-8 text-yellow-500" />
+            </div>
           </div>
         </div>
       )}
@@ -140,7 +136,7 @@ export function MyItemsPage() {
                   <TableRow key={item.id} className="border-gray-800 hover:bg-gray-800/50">
                     <TableCell className="font-medium text-white">{item.name}</TableCell>
                     <TableCell>
-                      <PriceDisplay amount={item.currentPrice} showIcon={false} />
+                      <PriceDisplay amount={item.currentPrice} showIcon={true} showCurrency={false} />
                     </TableCell>
                     <TableCell className="text-gray-300">{item.bidsCount}</TableCell>
                     <TableCell>

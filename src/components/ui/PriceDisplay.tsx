@@ -1,4 +1,3 @@
-// components/ui/PriceDisplay.tsx
 import { DollarSign } from 'lucide-react';
 import { formatCurrency } from '@/utils/formatters';
 import { cn } from '@/lib/utils';
@@ -50,7 +49,7 @@ export function PriceDisplay({
     <div className={cn('flex items-center gap-1.5', className)}>
       {showIcon && <DollarSign className="h-4 w-4 text-green-500" />}
       <span className={sizeClasses[size]}>
-        {formatCurrency(numericAmount, currency, showCurrency)}
+        {formatCurrency(numericAmount, showCurrency, currency)}
       </span>
     </div>
   );
