@@ -1,11 +1,18 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { ItemMedia } from '@/types/item';
 
 interface ItemImageGalleryProps {
   images: ItemMedia[];
   itemName: string;
+}
+
+const VIDEO_EXTENSIONS = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv'];
+
+function isVideoFile(fileName: string): boolean {
+  const lowerFileName = fileName.toLowerCase();
+  return VIDEO_EXTENSIONS.some(ext => lowerFileName.endsWith(ext));
 }
 
 export function ItemImageGallery({ images, itemName }: ItemImageGalleryProps) {
@@ -28,7 +35,7 @@ export function ItemImageGallery({ images, itemName }: ItemImageGalleryProps) {
               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
             />
           </svg>
-          <p>No images available</p>
+          <p>No media available</p>
         </div>
       </div>
     );
@@ -46,17 +53,29 @@ export function ItemImageGallery({ images, itemName }: ItemImageGalleryProps) {
     setCurrentIndex(index);
   };
 
+  const currentMedia = images[currentIndex];
+  const isCurrentVideo = isVideoFile(currentMedia.fileName);
+
   return (
     <div className="space-y-4">
-      {/* Main Image Display */}
       <div className="relative aspect-video bg-[#1a1a1a] rounded-lg overflow-hidden border border-gray-800 group">
-        <img
-          src={images[currentIndex].fileUrl}
-          alt={`${itemName} - Image ${currentIndex + 1}`}
-          className="w-full h-full object-contain"
-        />
+        {isCurrentVideo ? (
+          <video
+            key={currentMedia.id}
+            src={currentMedia.fileUrl}
+            controls
+            className="w-full h-full object-contain"
+          >
+            Your browser does not support the video tag.
+          </video>
+        ) : (
+          <img
+            src={currentMedia.fileUrl}
+            alt={`${itemName} - Image ${currentIndex + 1}`}
+            className="w-full h-full object-contain"
+          />
+        )}
 
-        {/* Navigation Arrows */}
         {images.length > 1 && (
           <>
             <Button
@@ -78,7 +97,6 @@ export function ItemImageGallery({ images, itemName }: ItemImageGalleryProps) {
           </>
         )}
 
-        {/* Image Counter */}
         {images.length > 1 && (
           <div className="absolute bottom-2 right-2 bg-black/60 px-2 py-1 rounded text-xs text-white">
             {currentIndex + 1} / {images.length}
@@ -86,29 +104,45 @@ export function ItemImageGallery({ images, itemName }: ItemImageGalleryProps) {
         )}
       </div>
 
-      {/* Thumbnail Strip */}
       {images.length > 1 && (
         <div className="flex gap-2 overflow-x-auto pb-2">
-          {images.map((image, index) => (
-            <button
-              key={image.id}
-              type="button"
-              onClick={() => goToIndex(index)}
-              className={`flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 transition-all ${
-                index === currentIndex
-                  ? 'border-[#256af4] ring-1 ring-[#256af4]'
-                  : 'border-gray-700 hover:border-gray-500'
-              }`}
-            >
-              <img
-                src={image.fileUrl}
-                alt={`${itemName} thumbnail ${index + 1}`}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
+          {images.map((media, index) => {
+            const isVideo = isVideoFile(media.fileName);
+            return (
+              <button
+                key={media.id}
+                type="button"
+                onClick={() => goToIndex(index)}
+                className={`relative flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 transition-all ${
+                  index === currentIndex
+                    ? 'border-[#256af4] ring-1 ring-[#256af4]'
+                    : 'border-gray-700 hover:border-gray-500'
+                }`}
+              >
+                {isVideo ? (
+                  <>
+                    <video
+                      src={media.fileUrl}
+                      className="w-full h-full object-cover"
+                      muted
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <Play className="h-5 w-5 text-white fill-white" />
+                    </div>
+                  </>
+                ) : (
+                  <img
+                    src={media.fileUrl}
+                    alt={`${itemName} thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
   );
 }
+

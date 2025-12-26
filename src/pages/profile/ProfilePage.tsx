@@ -3,9 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
 import { User, Mail, Phone, Calendar, Package, Gavel, Trophy } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { formatDate, parseDate } from '@/utils/formatters';
 import { useItems, useWinningBids } from '@/hooks/useItems';
 
@@ -175,36 +173,6 @@ export function ProfilePage() {
                       (item) => parseDate(item.endTime) < new Date()
                     ).length || 0}
                   </Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#242424] border-gray-800">
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <Link to="/items/create">
-                    <Button variant="outline" className="w-full">
-                      Create Item
-                    </Button>
-                  </Link>
-                  <Link to="/dashboard/my-items">
-                    <Button variant="outline" className="w-full">
-                      My Items
-                    </Button>
-                  </Link>
-                  <Link to="/dashboard/my-bids">
-                    <Button variant="outline" className="w-full">
-                      My Bids
-                    </Button>
-                  </Link>
-                  <Link to="/marketplace">
-                    <Button variant="outline" className="w-full">
-                      Browse Market
-                    </Button>
-                  </Link>
                 </div>
               </CardContent>
             </Card>

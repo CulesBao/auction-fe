@@ -28,30 +28,16 @@ export function BidFormSection({
 }: BidFormSectionProps) {
   if (!isActive) {
     return (
-      <Card className="bg-[#242424] border-gray-800">
-        <CardContent className="p-6">
           <Alert className="bg-gray-800 border-gray-700">
             <AlertDescription>
               This auction has ended. Bidding is no longer available.
             </AlertDescription>
           </Alert>
-        </CardContent>
-      </Card>
     );
   }
 
   if (isOwner) {
-    return (
-      <Card className="bg-[#242424] border-gray-800">
-        <CardContent className="p-6">
-          <Alert className="bg-gray-800 border-gray-700">
-            <AlertDescription>
-              You cannot bid on your own item.
-            </AlertDescription>
-          </Alert>
-        </CardContent>
-      </Card>
-    );
+    return null;
   }
 
   return (

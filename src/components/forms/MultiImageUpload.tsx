@@ -56,12 +56,19 @@ export function MultiImageUpload({
     }
 
     for (const file of files) {
-      if (!file.type.startsWith('image/')) {
-        toast.error(`${file.name} is not an image file`);
+      const isImage = file.type.startsWith('image/');
+      const isVideo = file.type.startsWith('video/');
+      
+      if (!isImage && !isVideo) {
+        toast.error(`${file.name} is not an image or video file`);
         return;
       }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(`${file.name} is larger than 5MB`);
+      
+      const maxSize = isVideo ? 50 * 1024 * 1024 : 5 * 1024 * 1024;
+      const maxSizeLabel = isVideo ? '50MB' : '5MB';
+      
+      if (file.size > maxSize) {
+        toast.error(`${file.name} is larger than ${maxSizeLabel}`);
         return;
       }
     }
@@ -168,7 +175,7 @@ export function MultiImageUpload({
             ) : (
               <>
                 <ImagePlus className="h-8 w-8" />
-                <span className="text-xs">Add Image</span>
+                <span className="text-xs">Add Media</span>
               </>
             )}
           </button>
@@ -178,7 +185,7 @@ export function MultiImageUpload({
       <input
         ref={fileInputRef}
         type="file"
-        accept="image/*"
+        accept="image/*,video/*"
         multiple
         onChange={handleFileSelect}
         className="hidden"
