@@ -43,14 +43,12 @@ export function MultiImageUpload({
     const files = Array.from(event.target.files || []);
     if (files.length === 0) return;
 
-    // Check max images limit
     const remainingSlots = maxImages - images.length;
     if (files.length > remainingSlots) {
       toast.error(`You can only upload ${remainingSlots} more image(s). Maximum is ${maxImages}.`);
       return;
     }
 
-    // Validate all files
     for (const file of files) {
       if (!file.type.startsWith('image/')) {
         toast.error(`${file.name} is not an image file`);
@@ -64,7 +62,6 @@ export function MultiImageUpload({
 
     setIsUploading(true);
 
-    // Upload all files
     const uploadPromises = files.map(async (file) => {
       try {
         const presignedData = await mediaService.getPresignedUrl({
@@ -126,7 +123,6 @@ export function MultiImageUpload({
     <div className="space-y-4">
       <Label className="text-gray-200">{label}</Label>
 
-      {/* Image Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {images.map((image) => (
           <div
@@ -154,7 +150,6 @@ export function MultiImageUpload({
           </div>
         ))}
 
-        {/* Add Image Slot */}
         {images.length < maxImages && (
           <button
             type="button"
@@ -174,7 +169,6 @@ export function MultiImageUpload({
         )}
       </div>
 
-      {/* Hidden File Input */}
       <input
         ref={fileInputRef}
         type="file"
@@ -184,33 +178,6 @@ export function MultiImageUpload({
         className="hidden"
         disabled={isUploading}
       />
-
-      {/* Upload Button & Info */}
-      <div className="flex items-center gap-4">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleButtonClick}
-          disabled={isUploading || images.length >= maxImages}
-          className="bg-[#1a1a1a] border-gray-700 text-white hover:bg-[#2a2a2a]"
-        >
-          {isUploading ? (
-            <>
-              <LoadingSpinner size="sm" />
-              <span className="ml-2">Uploading...</span>
-            </>
-          ) : (
-            <>
-              <Upload className="h-4 w-4 mr-2" />
-              Upload Images
-            </>
-          )}
-        </Button>
-
-        <p className="text-xs text-gray-400">
-          {images.length}/{maxImages} images • JPG, PNG or GIF • Max 5MB each
-        </p>
-      </div>
     </div>
   );
 }
