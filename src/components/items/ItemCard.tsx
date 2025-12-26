@@ -7,18 +7,17 @@ import { StatusBadge } from '@/components/ui/StatusBadge';
 import { CountdownTimer } from '@/components/ui/CountdownTimer';
 import { ItemInfoRow } from '@/components/items/ItemInfoRow';
 import type { Item } from '@/types/item';
-import { Gavel, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getDisplayName } from '@/utils/user';
 import { COLORS } from '@/constants/theme';
 
 export interface ItemCardProps {
   item: Item;
-  showActions?: boolean;
   className?: string;
 }
 
-export function ItemCard({ item, showActions = true, className }: ItemCardProps) {
+export function ItemCard({ item, className }: ItemCardProps) {
   const navigate = useNavigate();
   
   const ownerDisplayName = getDisplayName(
@@ -82,19 +81,6 @@ export function ItemCard({ item, showActions = true, className }: ItemCardProps)
           />
         </div>
       </CardContent>
-
-      {showActions && (
-        <CardFooter className="pt-3 border-t border-gray-800">
-          <Button 
-            onClick={(e) => e.stopPropagation()}
-            className="w-full text-white font-bold py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
-            style={{ backgroundColor: COLORS.primary }}
-          >
-            <Gavel className="h-4 w-4" />
-            Place Bid
-          </Button>
-        </CardFooter>
-      )}
     </Card>
   );
 }

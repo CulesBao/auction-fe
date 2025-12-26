@@ -5,6 +5,7 @@ import { PriceDisplay } from '@/components/ui/PriceDisplay';
 import { Calendar, Gavel, User, DollarSign } from 'lucide-react';
 import { formatDateTime } from '@/utils/formatters';
 import type { Item } from '@/types/item';
+import { ItemImageGallery } from './ItemImageGallery';
 
 interface ItemInfoSectionProps {
   item: Item;
@@ -25,6 +26,11 @@ export function ItemInfoSection({ item, currentPrice, minimumBid }: ItemInfoSect
             </div>
           </div>
         </div>
+
+        <ItemImageGallery
+          images={item.medias || []} 
+          itemName={item.name} 
+        />
 
         <div>
           <h3 className="text-lg font-semibold mb-2">Description</h3>

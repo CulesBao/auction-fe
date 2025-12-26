@@ -101,77 +101,65 @@ export function ItemDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white">
-      <div className="container mx-auto py-8 px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-
-            <ItemInfoSection item={item} currentPrice={currentPrice} minimumBid={minimumBid} />
-            
-            <Card className="bg-[#242424] border-gray-800">
-              <CardContent className="p-4">
-                <ItemImageGallery 
-                  images={item.medias || []} 
-                  itemName={item.name} 
-                />
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="space-y-6">
-            <BidFormSection
-              register={register}
-              errors={errors}
-              onSubmit={handleSubmit(onSubmit)}
-              isSubmitting={isPlacingBid}
-              minimumBid={minimumBid}
-              isActive={isActive}
-              isOwner={isOwner}
-            />
-
-            {isOwner && isActive && (
-              <Card className="bg-[#242424] border-gray-800">
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Lock className="h-5 w-5" />
-                    Owner Actions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Button
-                    variant="destructive"
-                    className="w-full"
-                    onClick={() => setShowLockDialog(true)}
-                    disabled={isLocking}
-                  >
-                    {isLocking ? 'Locking...' : 'Lock Item'}
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-
-            {item.bidHistory && item.bidHistory.length > 0 && (
-              <BidHistoryTable bidHistory={item.bidHistory} />
-            )}
-          </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-6">
+          <ItemInfoSection item={item} currentPrice={currentPrice} minimumBid={minimumBid} />
         </div>
 
-        <AlertDialog open={showLockDialog} onOpenChange={setShowLockDialog}>
-          <AlertDialogContent className="bg-[#242424] border-gray-800">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Lock this item?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This will prevent further bidding on this item. This action cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleLockItem} className="bg-red-600 hover:bg-red-700">
-                Lock Item
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <div className="space-y-6">
+          <BidFormSection
+            register={register}
+            errors={errors}
+            onSubmit={handleSubmit(onSubmit)}
+            isSubmitting={isPlacingBid}
+            minimumBid={minimumBid}
+            isActive={isActive}
+            isOwner={isOwner}
+          />
+
+          {isOwner && isActive && (
+            <Card className="bg-[#242424] border-gray-800">
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Lock className="h-5 w-5" />
+                  Owner Actions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Button
+                  variant="destructive"
+                  className="w-full"
+                  onClick={() => setShowLockDialog(true)}
+                  disabled={isLocking}
+                >
+                  {isLocking ? 'Locking...' : 'Lock Item'}
+                </Button>
+              </CardContent>
+            </Card>
+          )}
+
+          {item.bidHistory && item.bidHistory.length > 0 && (
+            <BidHistoryTable bidHistory={item.bidHistory} />
+          )}
+        </div>
       </div>
+
+      <AlertDialog open={showLockDialog} onOpenChange={setShowLockDialog}>
+        <AlertDialogContent className="bg-[#242424] border-gray-800">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Lock this item?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will prevent further bidding on this item. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleLockItem} className="bg-red-600 hover:bg-red-700">
+              Lock Item
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
