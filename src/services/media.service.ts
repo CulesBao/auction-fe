@@ -1,4 +1,4 @@
-import { apiClient } from './api.config';
+import { mediaApiClient } from './api.config';
 import type {
     GetPresignedUrlRequest,
     GetPresignedUrlResponse,
@@ -8,12 +8,12 @@ import type {
 
 export const mediaService = {
     async getPresignedUrl(params: GetPresignedUrlRequest): Promise<GetPresignedUrlResponse> {
-        const response = await apiClient.get('/media/presigned-url', { params });
+        const response = await mediaApiClient.get('/media/presigned-url', { params });
         return response.data;
     },
 
     async createMedia(data: CreateMediaRequest): Promise<CreateMediaResponse> {
-        const response = await apiClient.post('/media', data);
+        const response = await mediaApiClient.post('/media', data);
         return response.data;
     },
 

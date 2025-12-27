@@ -1,10 +1,15 @@
 // services/api.config.ts
 import axios, { AxiosError } from 'axios';
-import type { InternalAxiosRequestConfig } from 'axios';
+import type { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import type { AuthTokens } from '@/types/auth';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-const API_PREFIX = '/api/v1';
+// Service base URLs
+const AUCTION_SERVICE_URL = import.meta.env.VITE_AUCTION_SERVICE_URL || 'http://localhost:3000';
+const MEDIA_SERVICE_URL = import.meta.env.VITE_MEDIA_SERVICE_URL || 'http://localhost:4000';
+
+// Service prefixes
+const AUCTION_SERVICE_PREFIX = '/auction-service/api/v1';
+const MEDIA_SERVICE_PREFIX = '/media-service/api/v1';
 
 let onTokensRefreshed: ((tokens: AuthTokens) => void) | null = null;
 
@@ -12,23 +17,34 @@ export function setTokenRefreshCallback(callback: (tokens: AuthTokens) => void) 
     onTokensRefreshed = callback;
 }
 
+// Auction Service API Client (auths, users, items, bids)
 export const apiClient = axios.create({
-    baseURL: `${API_BASE_URL}${API_PREFIX}`,
+    baseURL: `${AUCTION_SERVICE_URL}${AUCTION_SERVICE_PREFIX}`,
     headers: {
         'Content-Type': 'application/json',
     },
 });
 
-apiClient.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-        const tokens = getStoredTokens();
-        if (tokens?.accessToken) {
-            config.headers.Authorization = `Bearer ${tokens.accessToken}`;
-        }
-        return config;
+// Media Service API Client
+export const mediaApiClient = axios.create({
+    baseURL: `${MEDIA_SERVICE_URL}${MEDIA_SERVICE_PREFIX}`,
+    headers: {
+        'Content-Type': 'application/json',
     },
-    (error) => Promise.reject(error)
-);
+});
+
+// Helper function to add auth token to request
+const addAuthToken = (config: InternalAxiosRequestConfig) => {
+    const tokens = getStoredTokens();
+    if (tokens?.accessToken) {
+        config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+    }
+    return config;
+};
+
+// Add request interceptor for both clients
+apiClient.interceptors.request.use(addAuthToken, (error) => Promise.reject(error));
+mediaApiClient.interceptors.request.use(addAuthToken, (error) => Promise.reject(error));
 
 let isRefreshing = false;
 let failedQueue: Array<{
@@ -47,66 +63,73 @@ const processQueue = (error: Error | null, token: string | null = null) => {
     failedQueue = [];
 };
 
-apiClient.interceptors.response.use(
-    (response) => response,
-    async (error: AxiosError) => {
-        const originalRequest = error.config as InternalAxiosRequestConfig & {
-            _retry?: boolean;
-        };
+// Create response interceptor handler for 401 errors
+const createResponseInterceptor = (client: AxiosInstance) => {
+    client.interceptors.response.use(
+        (response) => response,
+        async (error: AxiosError) => {
+            const originalRequest = error.config as InternalAxiosRequestConfig & {
+                _retry?: boolean;
+            };
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
-            if (isRefreshing) {
-                return new Promise((resolve, reject) => {
-                    failedQueue.push({ resolve, reject });
-                })
-                    .then((token) => {
-                        originalRequest.headers.Authorization = `Bearer ${token}`;
-                        return apiClient(originalRequest);
+            if (error.response?.status === 401 && !originalRequest._retry) {
+                if (isRefreshing) {
+                    return new Promise((resolve, reject) => {
+                        failedQueue.push({ resolve, reject });
                     })
-                    .catch((err) => Promise.reject(err));
-            }
-
-            originalRequest._retry = true;
-            isRefreshing = true;
-
-            const tokens = getStoredTokens();
-            if (!tokens?.refreshToken) {
-                clearStoredTokens();
-                window.location.href = '/login';
-                return Promise.reject(error);
-            }
-
-            try {
-                const response = await axios.post(
-                    `${API_BASE_URL}${API_PREFIX}/auths/refresh-token`,
-                    { refreshToken: tokens.refreshToken }
-                );
-
-                const newTokens: AuthTokens = response.data.token || response.data;
-
-                storeTokens(newTokens);
-
-                if (onTokensRefreshed) {
-                    onTokensRefreshed(newTokens);
+                        .then((token) => {
+                            originalRequest.headers.Authorization = `Bearer ${token}`;
+                            return client(originalRequest);
+                        })
+                        .catch((err) => Promise.reject(err));
                 }
 
-                processQueue(null, newTokens.accessToken);
+                originalRequest._retry = true;
+                isRefreshing = true;
 
-                originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
-                return apiClient(originalRequest);
-            } catch (refreshError) {
-                processQueue(refreshError as Error, null);
-                clearStoredTokens();
-                window.location.href = '/login';
-                return Promise.reject(refreshError);
-            } finally {
-                isRefreshing = false;
+                const tokens = getStoredTokens();
+                if (!tokens?.refreshToken) {
+                    clearStoredTokens();
+                    window.location.href = '/login';
+                    return Promise.reject(error);
+                }
+
+                try {
+                    const response = await axios.post(
+                        `${AUCTION_SERVICE_URL}${AUCTION_SERVICE_PREFIX}/auths/refresh-token`,
+                        { refreshToken: tokens.refreshToken }
+                    );
+
+                    const newTokens: AuthTokens = response.data.token || response.data;
+
+                    storeTokens(newTokens);
+
+                    if (onTokensRefreshed) {
+                        onTokensRefreshed(newTokens);
+                    }
+
+                    processQueue(null, newTokens.accessToken);
+
+                    originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
+                    return client(originalRequest);
+                } catch (refreshError) {
+                    processQueue(refreshError as Error, null);
+                    clearStoredTokens();
+                    window.location.href = '/login';
+                    return Promise.reject(refreshError);
+                } finally {
+                    isRefreshing = false;
+                }
             }
-        }
 
-        return Promise.reject(error);
-    }
-);
+            return Promise.reject(error);
+        }
+    );
+};
+
+// Add response interceptors for both clients
+createResponseInterceptor(apiClient);
+createResponseInterceptor(mediaApiClient);
 
 export function getStoredTokens(): AuthTokens | null {
     const stored = localStorage.getItem('auth_tokens');
