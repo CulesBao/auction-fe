@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware';
 import type { User, AuthTokens } from '@/types/auth';
 import { authService } from '@/services/auth.service';
 import { storeTokens, clearStoredTokens, getStoredTokens, setTokenRefreshCallback } from '@/services/api.config';
+import { SocketConnection } from '@/socket/socket';
 
 interface AuthStore {
     user: User | null;
@@ -50,10 +51,15 @@ export const useAuthStore = create<AuthStore>()(
                     tokens,
                     isAuthenticated: true,
                 });
+                SocketConnection.connect({
+                    userId: user.id,
+                    email: user.email,
+                });
             },
 
             logout: () => {
                 clearStoredTokens();
+                SocketConnection.disconnect();
                 set({
                     user: null,
                     tokens: null,
@@ -91,6 +97,11 @@ export const useAuthStore = create<AuthStore>()(
                         tokens: storedTokens,
                         isAuthenticated: true,
                         isLoading: false
+                    });
+                    // Connect socket for authenticated user
+                    SocketConnection.connect({
+                        userId: user.id,
+                        email: user.email,
                     });
                 } catch (error) {
                     // If token expired, tokens will be cleared by interceptor
